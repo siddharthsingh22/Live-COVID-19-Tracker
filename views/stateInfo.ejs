@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>
+      Live COVID-19 Tracker
+    </title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+  </head>
+  <body>
+    <form action="/" method="GET">
+      <button type="submit">Home Page</button>
+    </form>
+    <% var dateArray = [], caseArray = []; var temp = 0;%> <%
+    stateData.forEach(function(element){ %> <% if(element["State UT"] ===
+    stateName){ %>
+    <h1><%= element["State UT"] %></h1>
+    <% for(keys in element){ %> <% var value = element[keys]; var increase =
+    value - temp ; temp = value; %> <% if(typeof value !== "string"){ %>
+    <h4><%= keys %> ==> <%= value %>(<%= increase %>)</h4>
+
+    <% dateArray.push(keys); caseArray.push(value) %> <% } %> <% } %> <% } %> <%
+    }) %>
+
+    <script>
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      var datearray = <%- JSON.stringify(dateArray)  %>;
+      var casearray = <%- JSON.stringify(caseArray)  %>;
+
+
+      function drawChart() {
+
+
+
+        var data = new google.visualization.DataTable();
+        data.addColumn("string", "Date");
+        data.addColumn("number", "Cases");
+        data.addRows(2);
+        for(var i =0; i< datearray.length; i++){
+          data.addRow([datearray[i], casearray[i] ]);
+        }
+
+        var options = {
+          title: "Live COVID-19 Tracker",
+          curveType: "function",
+
+          hAxis: {
+            title: "Date",
+          },
+          vAxis: {
+            title: "No. of Cases",
+          },
+          crosshair: {
+            trigger: "both",
+            opacity: "1",
+            color: "black",
+          },
+          pointSize: "4",
+        };
+
+        var chart = new google.visualization.LineChart(
+          document.getElementById("curve_chart")
+        );
+
+        chart.draw(data, options);
+      }
+    </script>
+
+    <div id="curve_chart" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

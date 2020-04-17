@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>
+      Live COVID-19 Tracker
+    </title>
+  </head>
+  <body>
+    <% for(var i=0; i < data.length; i++){ for(var j = i+1 ; j < data.length ;
+    j++){ if(data[j]["noOfCases"]>data[i]["noOfCases"]){ var temp = data[i];
+    data[i] = data[j]; data[j] = temp %> <% }} } %> <% var sum = 0, sumCured =0,
+    sumDeath= 0; data.forEach(function(state){ %>
+    <h2>
+      <%= state["state"] %> No of Cases - <%= state["noOfCases"] %> Cured - <%=
+      state["cured"] %> Death - <%= state["deaths"] %> No. of actice cases - <%=
+      state["noOfCases"] - state["deaths"] - state["cured"] %>
+    </h2>
+    <% sum += state["noOfCases"]; sumCured += state["cured"]; sumDeath +=
+    state["deaths"] }) %>
+
+    <h1>Total no. of cases - <%= sum %></h1>
+    <h1>Total no. active cases - <%= sum - sumCured -sumDeath %></h1>
+
+    <form action="/" method="GET">
+      <button type="submit">refresh data</button>
+    </form>
+
+    <form action="/stateSearch" method="GET">
+      <input
+        type="text"
+        placeholder="enter the name of the state"
+        name="stateName"
+      />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
