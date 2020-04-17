@@ -7,7 +7,7 @@ app.listen(3000, function () {
 });
 app.set("view engine", "ejs");
 
-app.get("*", function (req, res) {
+app.get("/", function (req, res) {
   request("https://covid-india-cases.herokuapp.com/states/", function (
     error,
     response,

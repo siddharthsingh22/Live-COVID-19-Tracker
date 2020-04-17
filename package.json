@@ -2,10 +2,10 @@
   "name": "live-covid19-tracker",
   "version": "1.0.0",
   "description": "This is a live app showing the number of cases of covid-19.",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "app.js"
   },
   "repository": {
     "type": "git",
