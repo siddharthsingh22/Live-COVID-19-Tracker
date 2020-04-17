@@ -1,5 +1,5 @@
 {
-  "name": "covid19",
+  "name": "live-covid19-tracker",
   "version": "1.0.0",
   "description": "This is a live app showing the number of cases of covid-19.",
   "main": "app.js",
