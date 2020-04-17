@@ -14,7 +14,7 @@ app.get("/", function (req, res) {
     body
   ) {
     let data = JSON.parse(body);
-    res.render("info", { data: data });
+    res.render("/info", { data: data });
   });
 });
 
