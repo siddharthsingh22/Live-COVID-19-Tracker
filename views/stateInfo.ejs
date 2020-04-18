@@ -20,22 +20,15 @@
       <%= keys %> ==> <%= value %>(<%= increasePercent.toPrecision(4) %>)(<%=
       increase%>)
     </h4>
-
     <% dateArray.push(keys); caseArray.push(value) %> <% } %> <% } %> <% } %> <%
     }) %>
 
     <script>
       google.charts.load("current", { packages: ["corechart"] });
       google.charts.setOnLoadCallback(drawChart);
-
       var datearray = <%- JSON.stringify(dateArray)  %>;
       var casearray = <%- JSON.stringify(caseArray)  %>;
-
-
       function drawChart() {
-
-
-
         var data = new google.visualization.DataTable();
         data.addColumn("string", "Date");
         data.addColumn("number", "Cases");
@@ -43,11 +36,9 @@
         for(var i =0; i< datearray.length; i++){
           data.addRow([datearray[i], casearray[i] ]);
         }
-
         var options = {
           title: "Live COVID-19 Tracker",
           curveType: "function",
-
           hAxis: {
             title: "Date",
           },
@@ -61,11 +52,9 @@
           },
           pointSize: "4",
         };
-
         var chart = new google.visualization.LineChart(
           document.getElementById("curve_chart")
         );
-
         chart.draw(data, options);
       }
     </script>
