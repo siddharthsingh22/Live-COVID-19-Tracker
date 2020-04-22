@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>
+      Live Covid-19 Tracker
+    </title>
+  </head>
+  <body>
+    <h1>Hi</h1>
+    <% districtWiseData.forEach(function(element){ if(element["state"] ===
+    stateName){ element["districtData"].forEach(function(eachDistrictData){
+    if(eachDistrictData["district"] === districtName){
+    console.log(eachDistrictData) } }) } }) %>
+  </body>
+</html>

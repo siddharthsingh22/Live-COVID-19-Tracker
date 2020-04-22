@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>
+      Live COVID-19 Tracker
+    </title>
+  </head>
+
+  <body>
+    <% var lastIndex = 0 %> <%
+    data["cases_time_series"].forEach(function(element){ lastIndex ++; }) %>
+    <h1><%= data["cases_time_series"][lastIndex - 1]["date"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex - 1]["totalconfirmed"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex - 1]["totaldeceased"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex - 1]["totalrecovered"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex - 1]["dailyrecovered"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex - 1]["dailyconfirmed"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex - 1]["dailydeceased"] %></h1>
+
+    <form action="/stateSearch" method="GET">
+      <input
+        type="text"
+        placeholder="enter the name of the state"
+        name="stateName"
+      />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
