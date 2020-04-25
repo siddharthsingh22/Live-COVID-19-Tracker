@@ -3,14 +3,19 @@
     <title>
       Live Covid-19 Tracker
     </title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
   <body>
-    <% var temp = 0, increaseValue = 0; %> <%
-    stateData.forEach(function(element){ if(element["State UT"] === stateName){
-    %>
+    <% var upperCaseFirst = stateName[0].toUpperCase(); for(var i = 1; i <
+    stateName.length ; i ++){ upperCaseFirst =
+    upperCaseFirst.concat(stateName[i]) }; %> <% var temp = 0, increaseValue =
+    0, dateArray =[], totalConfirmedArray = [];%> <%
+    stateData.forEach(function(element){ if(element["State UT"] ===
+    upperCaseFirst){ %>
     <h1><%= element["State UT"] %></h1>
     <% for(keys in element){ if(keys !== "State UT"){ var values =
-    element[keys]; increaseValue = values - temp ; temp = values; } }%>
+    element[keys]; increaseValue = values - temp ; temp = values;
+    dateArray.push(keys); totalConfirmedArray.push(values) } }%>
     <h1><%= values %> - <%= increaseValue %></h1>
     <% } }) %>
 
@@ -22,5 +27,43 @@
       />
       <button type="submit">Submit</button>
     </form>
+
+    <script>
+      google.charts.load('current', {packages: ['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+          var dateArray = <%- JSON.stringify(dateArray)  %>;
+          var totalConfirmedArray = <%- JSON.stringify(totalConfirmedArray)  %>;
+          function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn("string", "Date");
+            data.addColumn("number", "Total Confirmed Cases");
+            for(var i =0; i< dateArray.length; i++){
+              data.addRow([dateArray[i], totalConfirmedArray[i] ]);
+            }
+            var options = {
+              title: "Live COVID-19 Tracker",
+              curveType: "function",
+              hAxis: {
+                title: "Date",
+              },
+              vAxis: {
+                title: "No. of Cases",
+              },
+              crosshair: {
+                trigger: "both",
+                opacity: "1",
+                color: "black",
+              },
+              pointSize: "4",
+              colors : ["#2196f3"]
+            };
+            var chart = new google.visualization.LineChart(
+              document.getElementById("curve_chart")
+            );
+            chart.draw(data, options);
+          }
+    </script>
+
+    <div id="curve_chart" style="width: 1000px; height: 600px;"></div>
   </body>
 </html>
