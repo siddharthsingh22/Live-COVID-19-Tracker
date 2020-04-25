@@ -3,18 +3,24 @@
     <title>
       Live COVID-19 Tracker
     </title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
 
   <body>
-    <% var lastIndex = 0 %> <%
-    data["cases_time_series"].forEach(function(element){ lastIndex ++; }) %>
-    <h1><%= data["cases_time_series"][lastIndex - 1]["date"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex - 1]["totalconfirmed"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex - 1]["totaldeceased"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex - 1]["totalrecovered"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex - 1]["dailyrecovered"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex - 1]["dailyconfirmed"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex - 1]["dailydeceased"] %></h1>
+    <% var lastIndex = -1; var dateArray = [], totalConfirmedArray = [],
+    totalRecoveredArray = [], totalDeceasedArray = []; %> <%
+    data["cases_time_series"].forEach(function(element){ lastIndex ++;
+    dateArray.push(element["date"]);
+    totalConfirmedArray.push(parseInt(element["totalconfirmed"], 10))
+    totalRecoveredArray.push(parseInt(element["totalrecovered"], 10))
+    totalDeceasedArray.push(parseInt(element["totaldeceased"], 10)) }) %>
+    <h1><%= data["cases_time_series"][lastIndex]["date"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex]["totalconfirmed"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex]["totaldeceased"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex]["totalrecovered"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex]["dailyrecovered"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex]["dailyconfirmed"] %></h1>
+    <h1><%= data["cases_time_series"][lastIndex]["dailydeceased"] %></h1>
 
     <form action="/stateSearch" method="GET">
       <input
@@ -24,5 +30,50 @@
       />
       <button type="submit">Submit</button>
     </form>
+    <script>
+      google.charts.load('current', {packages: ['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+          var dateArray = <%- JSON.stringify(dateArray)  %>;
+          var totalConfirmedArray = <%- JSON.stringify(totalConfirmedArray)  %>;
+          var totalRecoveredArray = <%- JSON.stringify(totalRecoveredArray)  %>;
+          var totalDeceasedArray = <%- JSON.stringify(totalDeceasedArray)  %>;
+
+
+          function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn("string", "Date");
+            data.addColumn("number", "Total Confirmed Cases");
+            data.addColumn("number", "Total Recovered Cases");
+            data.addColumn("number", "Total Deceased Cases");
+
+
+            for(var i =0; i< dateArray.length; i++){
+              data.addRow([dateArray[i], totalConfirmedArray[i], totalRecoveredArray[i], totalDeceasedArray[i] ]);
+            }
+            var options = {
+              title: "Live COVID-19 Tracker",
+              curveType: "function",
+              hAxis: {
+                title: "Date",
+              },
+              vAxis: {
+                title: "No. of Cases",
+              },
+              crosshair: {
+                trigger: "both",
+                opacity: "1",
+                color: "black",
+              },
+              pointSize: "4",
+              colors : ["#2196f3", "#81c784", "#f06292"]
+            };
+            var chart = new google.visualization.LineChart(
+              document.getElementById("curve_chart")
+            );
+            chart.draw(data, options);
+          }
+    </script>
+
+    <div id="curve_chart" style="width: 1000px; height: 600px;"></div>
   </body>
 </html>
