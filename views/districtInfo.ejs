@@ -6,9 +6,14 @@
   </head>
   <body>
     <h1>Hi</h1>
-    <% districtWiseData.forEach(function(element){ if(element["state"] ===
-    stateName){ element["districtData"].forEach(function(eachDistrictData){
-    if(eachDistrictData["district"] === districtName){
-    console.log(eachDistrictData) } }) } }) %>
+    <% var upperCaseFirst = districtName[0].toUpperCase(); for(var i = 1; i <
+    districtName.length ; i ++){ upperCaseFirst =
+    upperCaseFirst.concat(districtName[i]) }; %> <% var flag = false; %> <%
+    districtWiseData.forEach(function(primaryElement){
+    primaryElement["districtData"].forEach(function(secondaryElement){
+    if(secondaryElement["district"] === upperCaseFirst.trim()) { flag = true;
+    console.log(secondaryElement["confirmed"]);
+    console.log(secondaryElement["district"]) } }) }) %> <% if(flag === false){
+    console.log(districtName); console.log("No cases reported ") } %>
   </body>
 </html>

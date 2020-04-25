@@ -34,7 +34,6 @@ app.get("/stateSearch", function (req, res) {
 });
 
 app.post("/stateSearch/districtSearch", function (req, res) {
-  console.log(req.body);
   var districtName = req.body.districtName;
 
   request("https://api.covid19india.org/v2/state_district_wise.json", function (
