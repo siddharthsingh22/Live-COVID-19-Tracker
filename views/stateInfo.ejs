@@ -6,6 +6,15 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
   <body>
+    <!-- hitwebcounter Code START -->
+    <a href="https://www.hitwebcounter.com" target="_blank">
+      <img
+        src="https://hitwebcounter.com/counter/counter.php?page=7282764&style=0006&nbdigits=5&type=page&initCount=1546"
+        title="User Stats"
+        Alt="PHP Hits Count"
+        border="0"
+      />
+    </a>
     <% var upperCaseFirst = stateName[0].toUpperCase(); for(var i = 1; i <
     stateName.length ; i ++){ upperCaseFirst =
     upperCaseFirst.concat(stateName[i]) }; %> <% var temp = 0, increaseValue =
@@ -35,11 +44,37 @@
           var totalConfirmedArray = <%- JSON.stringify(totalConfirmedArray)  %>;
           function drawChart() {
             var data = new google.visualization.DataTable();
+            var data2 = new google.visualization.DataTable();
+
             data.addColumn("string", "Date");
             data.addColumn("number", "Total Confirmed Cases");
+            data2.addColumn("number", "Nd Values");
+            data2.addColumn("number", "Nd+1 Values");
+
             for(var i =0; i< dateArray.length; i++){
               data.addRow([dateArray[i], totalConfirmedArray[i] ]);
             }
+
+            for (var i=0; i< totalConfirmedArray.length - 1 ; i++){
+              data2.addRow([totalConfirmedArray[i], totalConfirmedArray[i+1]]);
+            }
+            var options2 = {
+              title: "Nd+1 vs Nd Values",
+              curveType: "function",
+              hAxis: {
+                title: "Nd Values",
+              },
+              vAxis: {
+                title: "Nd+1 Values",
+              },
+              crosshair: {
+                trigger: "both",
+                opacity: "1",
+                color: "black",
+              },
+              pointSize: "4",
+              colors : ["#2196f3"]
+            };
             var options = {
               title: "Live COVID-19 Tracker",
               curveType: "function",
@@ -60,10 +95,16 @@
             var chart = new google.visualization.LineChart(
               document.getElementById("curve_chart")
             );
+            var chart2 = new google.visualization.LineChart(
+              document.getElementById("curve_chart2")
+            );
             chart.draw(data, options);
+            chart2.draw(data2, options2);
+
           }
     </script>
 
     <div id="curve_chart" style="width: 1000px; height: 600px;"></div>
+    <div id="curve_chart2" style="width: 1000px; height: 600px;"></div>
   </body>
 </html>
