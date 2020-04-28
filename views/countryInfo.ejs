@@ -1,130 +1,358 @@
-<html>
-  <head>
-    <title>
-      Live COVID-19 Tracker
-    </title>
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-  </head>
+<%- include("partials/header") %>
+<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
+  <div class="navbar-brand">
+    <a href="/">Live Covid-19 Tracker</a>
+    <div id="dot"></div>
+  </div>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-  <body>
-    <a href="https://www.hitwebcounter.com" target="_blank">
-      <img
-        src="https://hitwebcounter.com/counter/counter.php?page=7282764&style=0006&nbdigits=5&type=page&initCount=1546"
-        title="User Stats"
-        Alt="PHP Hits Count"
-        border="0"
-      />
-    </a>
-    <% var lastIndex = -1; var dateArray = [], totalConfirmedArray = [],
-    totalRecoveredArray = [], totalDeceasedArray = []; %> <%
-    data["cases_time_series"].forEach(function(element){ lastIndex ++;
-    dateArray.push(element["date"]);
-    totalConfirmedArray.push(parseInt(element["totalconfirmed"], 10))
-    totalRecoveredArray.push(parseInt(element["totalrecovered"], 10))
-    totalDeceasedArray.push(parseInt(element["totaldeceased"], 10)) }) %>
-    <h1><%= data["cases_time_series"][lastIndex]["date"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex]["totalconfirmed"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex]["totaldeceased"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex]["totalrecovered"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex]["dailyrecovered"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex]["dailyconfirmed"] %></h1>
-    <h1><%= data["cases_time_series"][lastIndex]["dailydeceased"] %></h1>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          >Home <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">API</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Source Code</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
-    <form action="/stateSearch" method="GET">
-      <input
-        type="text"
-        placeholder="enter the name of the state"
-        name="stateName"
-      />
-      <button type="submit">Submit</button>
+<!-- Navbar Ends Here  -->
+
+<!-- <a href="https://www.hitwebcounter.com" target="_blank">
+        <img
+          src="https://hitwebcounter.com/counter/counter.php?page=7282764&style=0006&nbdigits=5&type=page&initCount=1546"
+          title="User Stats"
+          Alt="PHP Hits Count"
+          border="0"
+        />
+      </a> -->
+<div class="outterDiv">
+  <% var lastIndex = -1; var dateArray = [], totalConfirmedArray = [],
+  totalRecoveredArray = [], totalDeceasedArray = [], stateArray=[]; %> <%
+  data["cases_time_series"].forEach(function(element){ lastIndex ++;
+  dateArray.push(element["date"]);
+  totalConfirmedArray.push(parseInt(element["totalconfirmed"], 10))
+  totalRecoveredArray.push(parseInt(element["totalrecovered"], 10))
+  totalDeceasedArray.push(parseInt(element["totaldeceased"], 10)) }) %>
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Live Covid-19 Tracker</h1>
+      <p class="lead">
+        Data last updated on <%= lastModified %>
+      </p>
+    </div>
+  </div>
+  <div class="infoDiv">
+    <div
+      class="alert alert-primary"
+      role="alert"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Data fetched till <%= data["cases_time_series"][lastIndex]["date"] %>" 
+      style="display : flex; align-items : center"
+    >
+      <p>
+        Total cases till <%= data["cases_time_series"][lastIndex]["date"] %> <strong style="font-size: 1.1rem;"><%=
+          data["cases_time_series"][lastIndex]["totalconfirmed"] %></strong>
+
+        <button class="btn btn-primary">
+          <i class="fa fa-arrow-up"></i>
+          <span class="badge badge-light" style="margin-left: 0.5vw;">
+            <%= data["cases_time_series"][lastIndex]["dailyconfirmed"] %>
+          </span>
+        </button>
+      </p>
+    </div>
+    <div class="alert alert-success" role="alert" data-toggle="tooltip"
+    data-placement="top"
+    title="Data fetched till <%= data["cases_time_series"][lastIndex]["date"] %>" 
+    
+      <p>
+        Total recoveries till <%= data["cases_time_series"][lastIndex]["date"] %>
+        <strong style="font-size: 1.1rem;"> <%=
+          data["cases_time_series"][lastIndex]["totalrecovered"] %></strong>
+
+        <button class="btn btn-success">
+          <i class="fa fa-arrow-up"></i>
+          <span class="badge badge-light" style="margin-left: 0.5vw;">
+            <%= data["cases_time_series"][lastIndex]["dailyrecovered"] %>
+          </span>
+        </button>
+      </p>
+    </div>
+    <div class="alert alert-danger" role="alert" data-toggle="tooltip"
+    data-placement="top"
+    title="Data fetched till <%= data["cases_time_series"][lastIndex]["date"] %>" 
+    
+      <p>
+        Total deaths till <%= data["cases_time_series"][lastIndex]["date"] %>
+        <strong style="font-size: 1.1rem;"> <%=
+          data["cases_time_series"][lastIndex]["totaldeceased"] %></strong>
+
+        <button class="btn btn-danger">
+          <i class="fa fa-arrow-up"></i>
+          <span class="badge badge-light" style="margin-left: 0.5vw;">
+            <%= data["cases_time_series"][lastIndex]["dailydeceased"] %>
+          </span>
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="stateSearch"> 
+    <form autocomplete="off" action="/stateSearch" method="GET">
+      <div class="autocomplete">
+        <input id="myInput" type="text" class="form-control" name="stateName" placeholder="Enter the name of the state" />
+      </div>
+      <button class="btn btn-secondary" type="submit" style="background-color: #343a40;">Search</button>
     </form>
-    <script>
-      google.charts.load('current', {packages: ['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-          var dateArray = <%- JSON.stringify(dateArray)  %>;
-          var totalConfirmedArray = <%- JSON.stringify(totalConfirmedArray)  %>;
-          var totalRecoveredArray = <%- JSON.stringify(totalRecoveredArray)  %>;
-          var totalDeceasedArray = <%- JSON.stringify(totalDeceasedArray)  %>;
+  </div>
+  
+  
+  <script>
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+        var dateArray = <%- JSON.stringify(dateArray)  %>;
+        var totalConfirmedArray = <%- JSON.stringify(totalConfirmedArray)  %>;
+        var totalRecoveredArray = <%- JSON.stringify(totalRecoveredArray)  %>;
+        var totalDeceasedArray = <%- JSON.stringify(totalDeceasedArray)  %>;
 
+        function drawChart() {
+          var data = new google.visualization.DataTable();
+          var data2 = new google.visualization.DataTable();
+          data.addColumn("string", "Date");
+          data.addColumn("number", "Total Confirmed Cases");
+          data.addColumn("number", "Total Recovered Cases");
+          data.addColumn("number", "Total Deceased Cases");
+          data2.addColumn("number", "Nd values");
+          data2.addColumn("number", "Nd+1 values");
 
-
-          function drawChart() {
-            var data = new google.visualization.DataTable();
-            var data2 = new google.visualization.DataTable();
-            data.addColumn("string", "Date");
-            data.addColumn("number", "Total Confirmed Cases");
-            data.addColumn("number", "Total Recovered Cases");
-            data.addColumn("number", "Total Deceased Cases");
-            data2.addColumn("number", "Nd values");
-            data2.addColumn("number", "Nd+1 values");
-
-
-
-            for(var i =0; i< dateArray.length; i++){
-              data.addRow([dateArray[i], totalConfirmedArray[i], totalRecoveredArray[i], totalDeceasedArray[i] ]);
-            }
-
-            for (var i=0; i< totalConfirmedArray.length - 1 ; i++){
-              data2.addRow([totalConfirmedArray[i], totalConfirmedArray[i+1]]);
-            }
-            var options = {
-              title: "Live COVID-19 Tracker",
-              curveType: "function",
-              hAxis: {
-                title: "Date",
-              },
-              vAxis: {
-                title: "No. of Cases",
-                viewWindowMode:'explicit',
-            viewWindow: {
-
-              min:0
-            }
-              },
-              crosshair: {
-                trigger: "both",
-                opacity: "1",
-                color: "black",
-              },
-              pointSize: "4",
-              colors : ["#2196f3", "#81c784", "#f06292"]
-            };
-            var options2 = {
-              title: "Live COVID-19 Tracker",
-              curveType: "function",
-              hAxis: {
-                title: "Nd Values",
-              },
-              vAxis: {
-                title: "Nd+1 Values",
-                viewWindowMode:'explicit',
-            viewWindow: {
-
-              min:0
-            }
-              },
-              crosshair: {
-                trigger: "both",
-                opacity: "1",
-                color: "black",
-              },
-              pointSize: "4",
-              colors : ["#2196f3"]
-            };
-            var chart = new google.visualization.LineChart(
-              document.getElementById("curve_chart")
-            );
-            var chart2 = new google.visualization.LineChart(
-              document.getElementById("curve_chart2")
-            );
-            chart.draw(data, options);
-            chart2.draw(data2, options2);
-
-
+          for(var i =0; i< dateArray.length; i++){
+            data.addRow([dateArray[i], totalConfirmedArray[i], totalRecoveredArray[i], totalDeceasedArray[i] ]);
           }
+
+          for (var i=0; i< totalConfirmedArray.length - 1 ; i++){
+            data2.addRow([totalConfirmedArray[i], totalConfirmedArray[i+1]]);
+          }
+          var options = {
+            title: "Live COVID-19 Tracker",
+            curveType: "function",
+            explorer: {
+             axis: 'horizontal',
+             keepInBounds: true,
+             maxZoomIn: 4.0
+            },
+            hAxis: {
+              title: "Date",
+            },
+            vAxis: {
+              title: "No. of Cases",
+              viewWindowMode:'explicit',
+          viewWindow: {
+
+            min:0
+          }
+            },
+            crosshair: {
+              trigger: "both",
+              opacity: "1",
+              color: "black",
+            },
+            pointSize: "4",
+            colors : ["#2196f3", "#81c784", "#f06292"]
+          };
+          var options2 = {
+            title: "Live COVID-19 Tracker",
+            curveType: "function",
+            hAxis: {
+              title: "Nd Values",
+            },
+            vAxis: {
+              title: "Nd+1 Values",
+              viewWindowMode:'explicit',
+          viewWindow: {
+
+            min:0
+          }
+            },
+            crosshair: {
+              trigger: "both",
+              opacity: "1",
+              color: "black",
+            },
+            pointSize: "4",
+            colors : ["#2196f3"]
+          };
+          var chart = new google.visualization.LineChart(
+            document.getElementById("curve_chart")
+          );
+          var chart2 = new google.visualization.LineChart(
+            document.getElementById("curve_chart2")
+          );
+          chart.draw(data, options);
+          chart2.draw(data2, options2);
+                  }
+  </script>
+  <script>
+   
+    
+    function autocomplete(inp, arr) {
+ 
+      var currentFocus;
+ 
+      inp.addEventListener("input", function(e) {
+          var a, b, i, val = this.value;
+ 
+          closeAllLists();
+          if (!val) { return false;}
+          currentFocus = -1;
+ 
+          a = document.createElement("DIV");
+          a.setAttribute("id", this.id + "autocomplete-list");
+          a.setAttribute("class", "autocomplete-items");
+ 
+          this.parentNode.appendChild(a);
+ 
+          for (i = 0; i < arr.length; i++) {
+ 
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+ 
+              b = document.createElement("DIV");
+ 
+              b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+              b.innerHTML += arr[i].substr(val.length);
+ 
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+ 
+              b.addEventListener("click", function(e) {
+ 
+                  inp.value = this.getElementsByTagName("input")[0].value;
+ 
+                  closeAllLists();
+              });
+              a.appendChild(b);
+            }
+          }
+      });
+ 
+      inp.addEventListener("keydown", function(e) {
+          var x = document.getElementById(this.id + "autocomplete-list");
+          if (x) x = x.getElementsByTagName("div");
+          if (e.keyCode == 40) {
+ 
+            currentFocus++;
+ 
+            addActive(x);
+          } else if (e.keyCode == 38) { //up
+ 
+            currentFocus--;
+ 
+            addActive(x);
+          } else if (e.keyCode == 13) {
+ 
+            e.preventDefault();
+            if (currentFocus > -1) {
+ 
+              if (x) x[currentFocus].click();
+            }
+          }
+      });
+      function addActive(x) {
+ 
+        if (!x) return false;
+ 
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+ 
+        x[currentFocus].classList.add("autocomplete-active");
+      }
+      function removeActive(x) {
+ 
+        for (var i = 0; i < x.length; i++) {
+          x[i].classList.remove("autocomplete-active");
+        }
+      }
+      function closeAllLists(elmnt) {
+ 
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+          if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+          }
+        }
+      }
+ 
+      document.addEventListener("click", function (e) {
+          closeAllLists(e.target);
+      });
+    }
+    
+    
+      var stateArray = [ 
+  'Maharashtra',
+  'Gujarat',
+  'Delhi',
+  'Rajasthan',
+  'Madhya Pradesh',
+  'Tamil Nadu',
+  'Uttar Pradesh',
+  'Andhra Pradesh',
+  'Telangana',
+  'West Bengal',
+  'Jammu and Kashmir',
+  'Karnataka',
+  'Kerala',
+  'Punjab',
+  'Haryana',
+  'Bihar',
+  'Odisha',
+  'Jharkhand',
+  'Uttarakhand',
+  'Himachal Pradesh',
+  'Chhattisgarh',
+  'Assam',
+  'Chandigarh',
+  'Andaman and Nicobar Islands',
+  'Ladakh',
+  'Meghalaya',
+  'Puducherry',
+  'Goa',
+  'Manipur',
+  'Tripura',
+  'Mizoram',
+  'Arunachal Pradesh',
+  'Nagaland',
+  'Dadra and Nagar Haveli',
+  'Daman and Diu',
+  'Lakshadweep',
+  'Sikkim' ];
+    
+    autocomplete(document.getElementById("myInput"), stateArray);
     </script>
 
-    <div id="curve_chart" style="width: 1000px; height: 600px;"></div>
-    <div id="curve_chart2" style="width: 1000px; height: 600px;"></div>
-  </body>
-</html>
+  <div id="curve_chart" style="width: 100%; height: 600px;"></div>
+  <div id="curve_chart2" style="width: 100%; height: 600px;"></div>
+</div>
+
+<%- include("partials/footer") %>

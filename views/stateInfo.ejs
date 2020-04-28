@@ -7,20 +7,17 @@
   </head>
   <body>
     <!-- hitwebcounter Code START -->
-    <a href="https://www.hitwebcounter.com" target="_blank">
+    <!-- <a href="https://www.hitwebcounter.com" target="_blank">
       <img
         src="https://hitwebcounter.com/counter/counter.php?page=7282764&style=0006&nbdigits=5&type=page&initCount=1546"
         title="User Stats"
         Alt="PHP Hits Count"
         border="0"
       />
-    </a>
-    <% var upperCaseFirst = stateName[0].toUpperCase(); for(var i = 1; i <
-    stateName.length ; i ++){ upperCaseFirst =
-    upperCaseFirst.concat(stateName[i]) }; %> <% var temp = 0, increaseValue =
-    0, dateArray =[], totalConfirmedArray = [];%> <%
-    stateData.forEach(function(element){ if(element["State UT"] ===
-    upperCaseFirst){ %>
+    </a> -->
+    <% var temp = 0, increaseValue = 0, dateArray =[], totalConfirmedArray =
+    [];%> <% stateData.forEach(function(element){ if(element["State UT"] ===
+    stateName){ %>
     <h1><%= element["State UT"] %></h1>
     <% for(keys in element){ if(keys !== "State UT"){ var values =
     element[keys]; increaseValue = values - temp ; temp = values;
