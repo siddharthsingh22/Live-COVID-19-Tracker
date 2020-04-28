@@ -4,6 +4,7 @@ var request = require("request");
 var bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.listen(process.env.PORT || 3000, function () {
   console.log("Server has started");
@@ -14,15 +15,18 @@ app.get("/", function (req, res) {
   request("https://api.covid19india.org/data.json", function (
     error,
     response,
-    body
+    body,
+    headers
   ) {
+    let lastModified = response.headers["last-modified"];
     let data = JSON.parse(body);
-    res.render("countryInfo", { data: data });
+    res.render("countryInfo", { data: data, lastModified: lastModified });
   });
 });
 
 app.get("/stateSearch", function (req, res) {
   var stateName = req.query.stateName;
+  console.log(stateName);
   request("https://covid-india-cases.herokuapp.com/statetimeline/", function (
     error,
     response,
