@@ -33,12 +33,16 @@ app.get("/stateSearch", function (req, res) {
     body
   ) {
     let stateData = JSON.parse(body);
-    res.render("stateInfo", { stateData: stateData, stateName: stateName });
+    res.render("stateInfo", {
+      stateData: stateData,
+      stateName: stateName,
+    });
   });
 });
 
 app.post("/stateSearch/districtSearch", function (req, res) {
   var districtName = req.body.districtName;
+  console.log(districtName);
 
   request("https://api.covid19india.org/v2/state_district_wise.json", function (
     error,
@@ -48,7 +52,6 @@ app.post("/stateSearch/districtSearch", function (req, res) {
     var districtWiseData = JSON.parse(body);
 
     res.render("districtInfo", {
-      stateName: "Kerala",
       districtWiseData: districtWiseData,
       districtName: districtName,
     });
