@@ -1,27 +1,87 @@
-<html>
-  <head>
-    <title>
-      Live Covid-19 Tracker
-    </title>
-  </head>
-  <body>
-    <a href="https://www.hitwebcounter.com" target="_blank">
-      <img
-        src="https://hitwebcounter.com/counter/counter.php?page=7282764&style=0006&nbdigits=5&type=page&initCount=1546"
-        title="User Stats"
-        Alt="PHP Hits Count"
-        border="0"
-      />
-    </a>
+<%- include("partials/header") %>
+
+<div style="width: 100%;">
+  <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
+    <div class="navbar-brand">
+      <a href="/">Live Covid-19 Tracker</a>
+      <div id="dot"></div>
+    </div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/"
+            >Home <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">API</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li> -->
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="https://github.com/siddharthsingh22/Live-COVID-19-Tracker"
+            target="blank"
+            >Source Code</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="outterDiv" style="width: 100%;">
+    <div class="jumbotron jumbotron-fluid" style="margin: 0px; width: 100%;">
+      <div class="container">
+        <h1 class="display-4">Live Covid-19 Tracker</h1>
+        <p class="lead">
+          <%= districtName %>
+        </p>
+      </div>
+    </div>
     <% var upperCaseFirst = districtName[0].toUpperCase(); for(var i = 1; i <
     districtName.length ; i ++){ upperCaseFirst =
     upperCaseFirst.concat(districtName[i]) }; %> <% var flag = false; %> <%
     districtWiseData.forEach(function(primaryElement){
     primaryElement["districtData"].forEach(function(secondaryElement){
     if(secondaryElement["district"] === upperCaseFirst.trim()) { flag = true; %>
-    <h1><%= secondaryElement["district"] %></h1>
-    <h1><%= secondaryElement["confirmed"] %></h1>
+    <div
+      class="infoDiv"
+      style="display: flex; flex-direction: column; align-items: center;"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+        data-toggle="tooltip"
+        data-placement="top"
+        style="display: flex; align-items: center;"
+      >
+        <p>
+          Total Number of confirmed cases
+          <strong style="font-size: 1.1rem;"
+            ><%= secondaryElement["confirmed"] %></strong
+          >
+        </p>
+      </div>
+      <button class="btn btn-success" style="margin-bottom: 2vh;">
+        <a href="/" style="color: white;">Home Page</a>
+      </button>
+    </div>
+
     <% } }) }) %> <% if(flag === false){ console.log(districtName);
     console.log("No cases reported ") } %>
-  </body>
-</html>
+  </div>
+</div>
+<%- include("partials/footer") %>
